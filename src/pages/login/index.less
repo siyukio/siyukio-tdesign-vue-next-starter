@@ -13,8 +13,26 @@
     background-image: url('@/assets/assets-login-bg-black.png');
   }
 }
+@import '@/style/variables.less';
+
+.light {
+  &.login-wrapper {
+    background-color: white;
+    background-image: url('@/assets/assets-login-bg-white.png');
+  }
+}
+
+.dark {
+  &.login-wrapper {
+    background-color: @bg-color-page;
+    background-image: url('@/assets/assets-login-bg-black.png');
+  }
+}
 
 .login-wrapper {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -25,6 +43,8 @@
 
 .login-container {
   position: absolute;
+  top: 22%;
+  left: 5%;
   top: 22%;
   left: 5%;
   min-height: 500px;
@@ -41,11 +61,23 @@
     &.margin-no {
       margin-top: 0;
     }
+  .title {
+    font-size: 36px;
+    line-height: 44px;
+    color: @text-color-primary;
+    margin-top: 4px;
+
+    &.margin-no {
+      margin-top: 0;
+    }
   }
 
   .sub-title {
     margin-top: 16px;
+  .sub-title {
+    margin-top: 16px;
 
+    .tip {
     .tip {
       display: inline-block;
       margin-right: 8px;
@@ -55,6 +87,14 @@
         color: @text-color-secondary;
       }
 
+      &:first-child {
+        color: @text-color-secondary;
+      }
+
+      &:last-child {
+        color: @text-color-primary;
+        cursor: pointer;
+      }
       &:last-child {
         color: @text-color-primary;
         cursor: pointer;
@@ -66,10 +106,19 @@
 .item-container {
   width: 400px;
   margin-top: 48px;
+  margin-top: 48px;
 
   &.login-qrcode {
     .tip-container {
       width: 192px;
+      margin-bottom: 16px;
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+
+      .tip {
+        color: @text-color-primary;
+      }
       margin-bottom: 16px;
       font-size: 14px;
       display: flex;
@@ -86,7 +135,6 @@
 
         .t-icon {
           font-size: 14px;
-          margin-left: 4px;
         }
 
         &:hover {
@@ -121,6 +169,7 @@
 
     span {
       color: @brand-color;
+      color: @brand-color;
 
       &:hover {
         cursor: pointer;
@@ -147,9 +196,14 @@
   .btn-container {
     margin-top: 48px;
   }
+
+  .btn-container {
+    margin-top: 48px;
+  }
 }
 
 .switch-container {
+  margin-top: 24px;
   margin-top: 24px;
 
   .tip {
@@ -179,6 +233,7 @@
 
 .check-container {
   font-size: 14px;
+  color: @text-color-secondary;
   color: @text-color-secondary;
 
   .tip {

@@ -9,7 +9,7 @@
   >
     <template v-if="type == 'password'">
       <t-form-item name="account">
-        <t-input v-model="formData.account" size="large" placeholder="请输入您的账号">
+        <t-input v-model="formData.account" size="large" placeholder="请输入您的账号:td">
           <template #prefix-icon>
             <t-icon name="user" />
           </template>
@@ -22,7 +22,7 @@
           size="large"
           :type="showPsw ? 'text' : 'password'"
           clearable
-          placeholder="请输入登录密码"
+          placeholder="请输入登录密码:main_/dev_"
         >
           <template #prefix-icon>
             <t-icon name="lock-on" />
@@ -43,7 +43,7 @@
     <template v-else-if="type == 'qrcode'">
       <div class="tip-container">
         <span class="tip">请使用微信扫一扫登录</span>
-        <span class="refresh">刷新 <t-icon name="refresh" /> </span>
+        <span class="refresh">刷新 <t-icon name="refresh" color="#0052D9" /> </span>
       </div>
       <qrcode-vue value="" :size="192" level="H" />
     </template>
@@ -58,6 +58,7 @@
       </t-form-item>
     </template>
 
+    <t-form-item v-if="type !== 'qrcode'" class="btn-container">
     <t-form-item v-if="type !== 'qrcode'" class="btn-container">
       <t-button block size="large" type="submit"> 登录 </t-button>
     </t-form-item>
@@ -94,6 +95,10 @@ const FORM_RULES = {
     { required: true, message: '手机号必填', type: 'error' },
     { telnumber: true, message: '请输入正确的手机号', type: 'warning' },
   ],
+  phone: [
+    { required: true, message: '手机号必填', type: 'error' },
+    { telnumber: true, message: '请输入正确的手机号', type: 'warning' },
+  ],
   password: [{ required: true, message: '密码必填', type: 'error' }, { validator: passwordValidator }],
   verifyCode: [{ required: true, message: '验证码必填', type: 'error' }],
 };
@@ -116,7 +121,18 @@ export default defineComponent({
     const store = useStore();
 
     const onSubmit = async ({ validateResult }) => {
+    const onSubmit = async ({ validateResult }) => {
       if (validateResult === true) {
+        try {
+          await store.dispatch('user/login', formData.value);
+          MessagePlugin.success('登陆成功');
+          router.push({
+            path: '/dashboard/base',
+          });
+        } catch (e) {
+          console.log(e);
+          MessagePlugin.error(e.message);
+        }
         try {
           await store.dispatch('user/login', formData.value);
           MessagePlugin.success('登陆成功');
