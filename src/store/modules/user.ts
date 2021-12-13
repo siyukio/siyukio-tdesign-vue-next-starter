@@ -11,9 +11,7 @@ const InitUserInfo = {
 
 // 定义的state初始值
 const state = {
-  token: localStorage.getItem(TOKEN_NAME),
-  userInfo: InitUserInfo,
-  token: localStorage.getItem(TOKEN_NAME),
+  token: localStorage.getItem(TOKEN_NAME) || 'main_token', // 默认token不走权限
   userInfo: InitUserInfo,
 };
 
@@ -62,23 +60,25 @@ const getters = {
 const actions = {
   async login({ commit }, userInfo) {
     const mockLogin = async (userInfo) => {
-      const { account, password } = userInfo;
-      if (account !== 'td') {
-        return {
-          code: 401,
-          message: '账号不存在',
-        };
-      }
-      if (['main_', 'dev_'].indexOf(password) === -1) {
-        return {
-          code: 401,
-          message: '密码错误',
-        };
-      }
-      const token = {
-        main_: 'main_token',
-        dev_: 'dev_token',
-      }[password];
+      // 登录请求流程
+      console.log(userInfo);
+      // const { account, password } = userInfo;
+      // if (account !== 'td') {
+      //   return {
+      //     code: 401,
+      //     message: '账号不存在',
+      //   };
+      // }
+      // if (['main_', 'dev_'].indexOf(password) === -1) {
+      //   return {
+      //     code: 401,
+      //     message: '密码错误',
+      //   };
+      // }
+      // const token = {
+      //   main_: 'main_token',
+      //   dev_: 'dev_token',
+      // }[password];
       return {
         code: 200,
         message: '登陆成功',
