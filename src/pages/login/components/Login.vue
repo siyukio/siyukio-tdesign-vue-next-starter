@@ -74,10 +74,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 import QrcodeVue from 'qrcode.vue';
 import { MessagePlugin } from 'tdesign-vue-next';
 import { useCounter } from '@/hooks';
+import { useUserStore } from '@/store';
+
+const userStore = useUserStore();
 
 const INITIAL_DATA = {
   phone: '',
@@ -106,12 +108,12 @@ const switchType = (val: string) => {
 };
 
 const router = useRouter();
-const store = useStore();
 
 const onSubmit = async ({ validateResult }) => {
   if (validateResult === true) {
     try {
-      await store.dispatch('user/login', formData.value);
+      await userStore.login(formData.value);
+
       MessagePlugin.success('登陆成功');
       router.push({
         path: '/dashboard/base',
