@@ -125,3 +125,7 @@ const onSubmit = async ({ validateResult }) => {
   }
 };
 </script>
+
+<style lang="less" scoped>
+@import url('../index.less');
+</style>
