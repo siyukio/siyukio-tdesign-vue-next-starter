@@ -23,7 +23,7 @@
   "dependencies": {
     "@vueuse/core": "^12.3.0",
     "axios": "^1.8.4",
-    "dayjs": "^1.11.13",
+    "dayjs": "^1.11.19",
     "echarts": "5.4.3",
     "lodash": "^4.17.21",
     "nprogress": "^0.2.0",
