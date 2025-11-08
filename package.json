@@ -17,10 +17,11 @@
     "stylelint:fix": "stylelint --fix src/**/*.{html,vue,css,sass,less}",
     "prepare": "husky",
     "site:preview": "npm run build && cp -r dist _site",
-    "test": "echo \"no test specified,work in process\"",
+    "test": "vitest",
     "test:coverage": "echo \"no test:coverage specified,work in process\""
   },
   "dependencies": {
+    "@modelcontextprotocol/sdk": "1.20.2",
     "@vueuse/core": "^12.3.0",
     "axios": "^1.8.4",
     "dayjs": "^1.11.13",
@@ -45,6 +46,7 @@
     "@types/echarts": "^4.9.21",
     "@types/lodash": "^4.17.6",
     "@types/mockjs": "^1.0.10",
+    "@types/node": "^24.10.0",
     "@types/nprogress": "^0.2.3",
     "@types/qs": "^6.9.17",
     "@vitejs/plugin-vue": "^5.0.4",
@@ -69,11 +71,13 @@
     "stylelint": "~16.16.0",
     "stylelint-config-standard": "^37.0.0",
     "stylelint-order": "~6.0.4",
+    "ts-node": "^10.9.2",
     "typescript": "~5.4.3",
     "typescript-eslint": "^8.26.1",
     "vite": "^6.2.2",
     "vite-plugin-mock": "^3.0.1",
     "vite-svg-loader": "^5.1.0",
+    "vitest": "^4.0.7",
     "vue-tsc": "^2.2.8"
   },
   "config": {
