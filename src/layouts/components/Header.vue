@@ -173,7 +173,7 @@ const handleLogout = () => {
 };
 
 const navToGitHub = () => {
-  window.open('https://github.com/tencent/tdesign-vue-next-starter');
+  window.open('https://github.com/siyukio/siyukio-tdesign-vue-next-starter');
 };
 
 const navToHelper = () => {

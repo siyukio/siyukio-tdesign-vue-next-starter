@@ -15,7 +15,7 @@
   </header>
 </template>
 <script setup lang="ts">
-import LogoFullIcon from '@/assets/assets-logo-full.svg?component';
+import LogoFullIcon from '@/assets/siyukio-logo-full.svg?component';
 import { useSettingStore } from '@/store';
 
 const settingStore = useSettingStore();
@@ -26,7 +26,7 @@ const toggleSettingPanel = () => {
 };
 
 const navToGitHub = () => {
-  window.open('https://github.com/tencent/tdesign-vue-next-starter');
+  window.open('https://github.com/siyukio/siyukio-tdesign-vue-next-starter');
 };
 
 const navToHelper = () => {
@@ -46,6 +46,7 @@ const navToHelper = () => {
   .logo {
     width: 178px;
     height: var(--td-comp-size-s);
+    fill: var(--td-brand-color);
   }
 
   .operations-container {

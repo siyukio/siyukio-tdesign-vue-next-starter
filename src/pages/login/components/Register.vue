@@ -55,8 +55,8 @@
     </template>
 
     <t-form-item class="check-container" name="checked">
-      <t-checkbox v-model="formData.checked">我已阅读并同意 </t-checkbox> <span>TDesign服务协议</span> 和
-      <span>TDesign 隐私声明</span>
+      <t-checkbox v-model="formData.checked">我已阅读并同意 </t-checkbox> <span>Siyukio 服务协议</span> 和
+      <span>Siyukio 隐私声明</span>
     </t-form-item>
 
     <t-form-item>
@@ -109,7 +109,7 @@ const [countDown, handleCounter] = useCounter();
 const onSubmit = (ctx: SubmitContext) => {
   if (ctx.validateResult === true) {
     if (!formData.value.checked) {
-      MessagePlugin.error('请同意TDesign服务协议和TDesign 隐私声明');
+      MessagePlugin.error('请同意 Siyukio 服务协议和 Siyukio 隐私声明');
       return;
     }
     MessagePlugin.success('注册成功');
