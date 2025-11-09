@@ -11,26 +11,8 @@
     background-image: url('@/assets/assets-login-bg-black.png');
   }
 }
-@import '@/style/variables.less';
-
-.light {
-  &.login-wrapper {
-    background-color: white;
-    background-image: url('@/assets/assets-login-bg-white.png');
-  }
-}
-
-.dark {
-  &.login-wrapper {
-    background-color: var(--tdvns-bg-color-page);
-    background-image: url('@/assets/assets-login-bg-black.png');
-  }
-}
 
 .login-wrapper {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -41,8 +23,6 @@
 
 .login-container {
   position: absolute;
-  top: 22%;
-  left: 5%;
   top: 22%;
   left: 5%;
   min-height: 500px;
@@ -63,7 +43,6 @@
     margin-top: var(--td-comp-margin-xxl);
 
     .tip {
-    .tip {
       display: inline-block;
       margin-right: var(--td-comp-margin-s);
       font: var(--td-font-body-medium);
@@ -72,14 +51,6 @@
         color: var(--td-text-color-secondary);
       }
 
-      &:first-child {
-        color: var(--tdvns-text-color-secondary);
-      }
-
-      &:last-child {
-        color: var(--tdvns-text-color-primary);
-        cursor: pointer;
-      }
       &:last-child {
         color: var(--td-text-color-primary);
         cursor: pointer;
@@ -162,10 +133,6 @@
         width: 128px;
       }
     }
-  }
-
-  .btn-container {
-    margin-top: var(--td-comp-margin-xxxxl);
   }
 
   .btn-container {
