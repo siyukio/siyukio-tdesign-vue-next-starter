@@ -20,6 +20,8 @@ import {
 import type { AxiosRequestConfig } from 'axios';
 import axios from 'axios';
 
+import { StreamableWebsocketClientTransport } from '@/utils/mcp/sdk/client/streamableWebsocket';
+
 export const mcpBaseUrl = import.meta.env.VITE_MCP_BASE_URL || '';
 const mcpEndpoint = import.meta.env.VITE_MCP_ENDPOINT || '';
 
@@ -27,6 +29,11 @@ export interface CreateMcpClientOptions {
   baseUrl?: string;
   mcpEndpoint?: string;
   version?: string;
+  /**
+   * A timeout (in milliseconds) for this request. If exceeded, an McpError with code `RequestTimeout` will be raised from request().
+   *
+   * If not specified, `60000` will be used as the timeout.
+   */
   requestTimeout?: number;
   useWebsocket?: boolean;
   progressHandler?: (progressNotification: ProgressNotification) => void;
@@ -35,32 +42,43 @@ export interface CreateMcpClientOptions {
 }
 
 export class MyMcpClient {
-  private readonly options: CreateMcpClientOptions;
+  private readonly _options: CreateMcpClientOptions;
 
   constructor(options: CreateMcpClientOptions) {
-    this.options = options;
+    this._options = options;
   }
 
-  public getClient = async (): Promise<Client> => {
-    const url = new URL(this.options.baseUrl);
-    url.pathname = this.options.mcpEndpoint;
+  public getAsyncClient = async (): Promise<Client> => {
+    const url = new URL(this._options.baseUrl);
+    url.pathname = this._options.mcpEndpoint;
     let accessToken = '';
-    if (this.options.authProvider) {
-      accessToken = await this.options.authProvider();
+    if (this._options.authProvider) {
+      accessToken = await this._options.authProvider();
     }
-    const transport = new StreamableHTTPClientTransport(url, {
-      requestInit: {
-        headers: {
-          Authorization: accessToken,
+    let transport;
+    if (this._options.useWebsocket) {
+      url.pathname += '/ws';
+      if (url.protocol === 'https:') {
+        url.protocol = 'wss:';
+      } else {
+        url.protocol = 'ws:';
+      }
+      transport = new StreamableWebsocketClientTransport(url, accessToken);
+    } else {
+      transport = new StreamableHTTPClientTransport(url, {
+        requestInit: {
+          headers: {
+            Authorization: accessToken,
+          },
         },
-      },
-    });
+      });
+    }
 
     const clientOptions: ClientOptions = {
       capabilities: {},
     };
 
-    if (this.options.samplingHandler) {
+    if (this._options.samplingHandler) {
       clientOptions.capabilities.sampling = {};
     }
 
@@ -72,27 +90,33 @@ export class MyMcpClient {
       clientOptions,
     );
 
-    if (this.options.samplingHandler) {
-      client.setRequestHandler(CreateMessageRequestSchema, this.options.samplingHandler);
+    if (this._options.samplingHandler) {
+      client.setRequestHandler(CreateMessageRequestSchema, this._options.samplingHandler);
     }
 
-    if (this.options.progressHandler) {
-      client.setNotificationHandler(ProgressNotificationSchema, this.options.progressHandler);
+    if (this._options.progressHandler) {
+      client.setNotificationHandler(ProgressNotificationSchema, this._options.progressHandler);
     }
 
-    await client.connect(transport);
+    await client.connect(transport, {
+      timeout: this._options.requestTimeout,
+      resetTimeoutOnProgress: true,
+    });
     return client;
   };
 
   public close = async (client: Client): Promise<void> => {
-    if (client.transport instanceof StreamableHTTPClientTransport) {
+    if (
+      client.transport instanceof StreamableHTTPClientTransport ||
+      client.transport instanceof StreamableWebsocketClientTransport
+    ) {
       await client.transport.terminateSession();
     }
     await client.close();
   };
 
   public listTools = async (): Promise<ListToolsResult> => {
-    const client = await this.getClient();
+    const client = await this.getAsyncClient();
     const toolsRequest: ListToolsRequest = {
       method: 'tools/list',
       params: {},
@@ -142,7 +166,7 @@ export class MyMcpClient {
       const toolResult = await client.callTool(toolsRequest, CallToolResultSchema, options);
       return this.doResult(toolName, toolResult);
     } else {
-      const client = await this.getClient();
+      const client = await this.getAsyncClient();
       try {
         const toolResult = await client.callTool(toolsRequest, CallToolResultSchema, options);
         return this.doResult(toolName, toolResult);

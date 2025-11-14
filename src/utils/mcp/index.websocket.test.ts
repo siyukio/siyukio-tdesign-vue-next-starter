@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 
 import { getMcpClient, mcpBaseUrl, postRequest } from './index';
 
-describe('mcp client', async () => {
+describe('mcp websocket client', async () => {
   const authProvider = async (): Promise<string> => {
     const tokenVo = await postRequest<any>(`${mcpBaseUrl}/createAuthorization`, {
       uid: 'admin',
@@ -12,7 +12,7 @@ describe('mcp client', async () => {
   };
 
   it('listTools', async () => {
-    const mcpClient = await getMcpClient({ authProvider });
+    const mcpClient = await getMcpClient({ authProvider, useWebsocket: true });
     const listToolsResult = await mcpClient.listTools();
     console.info(listToolsResult.tools);
     expect(listToolsResult.tools.length).toBeGreaterThan(0);
@@ -21,6 +21,7 @@ describe('mcp client', async () => {
   it('mcp callTool', async () => {
     const mcpClient = await getMcpClient({
       authProvider,
+      useWebsocket: true,
     });
     const result = await mcpClient.callTool('/createAuthorization', { uid: 'hello' });
     console.info(result);
@@ -29,8 +30,9 @@ describe('mcp client', async () => {
   it('mcp multi callTool', async () => {
     const mcpClient = await getMcpClient({
       authProvider,
+      useWebsocket: true,
     });
-    const client = await mcpClient.getClient();
+    const client = await mcpClient.getAsyncClient();
     try {
       for (let index = 0; index < 3; index++) {
         const result = await mcpClient.callTool('/createAuthorization', { uid: 'hello' }, {}, client);
@@ -44,6 +46,7 @@ describe('mcp client', async () => {
   it('mcp callTool sampling', async () => {
     const mcpClient = await getMcpClient({
       authProvider,
+      useWebsocket: true,
       samplingHandler: async (createMessageRequest: CreateMessageRequest) => {
         console.info('on createMessageRequest', createMessageRequest);
         return {
@@ -63,6 +66,7 @@ describe('mcp client', async () => {
   it('mcp multi callTool sampling', async () => {
     const mcpClient = await getMcpClient({
       authProvider,
+      useWebsocket: true,
       samplingHandler: async (createMessageRequest: CreateMessageRequest) => {
         console.info('on multi createMessageRequest', createMessageRequest);
         return {
@@ -76,7 +80,7 @@ describe('mcp client', async () => {
       },
     });
 
-    const client = await mcpClient.getClient();
+    const client = await mcpClient.getAsyncClient();
     try {
       for (let index = 0; index < 3; index++) {
         const result = await mcpClient.callTool('/getToken', {}, {}, client);
@@ -90,6 +94,7 @@ describe('mcp client', async () => {
   it('mcp callTool progress', async () => {
     const mcpClient = await getMcpClient({
       authProvider,
+      useWebsocket: true,
       progressHandler: (progressNotification: ProgressNotification) => {
         console.info('on progressNotification', progressNotification);
       },
@@ -101,12 +106,13 @@ describe('mcp client', async () => {
   it('mcp multi callTool progress', async () => {
     const mcpClient = await getMcpClient({
       authProvider,
+      useWebsocket: true,
       progressHandler: (progressNotification: ProgressNotification) => {
         console.info('on multi progressNotification', progressNotification);
       },
     });
 
-    const client = await mcpClient.getClient();
+    const client = await mcpClient.getAsyncClient();
     try {
       for (let index = 0; index < 3; index++) {
         const result = await mcpClient.callTool('/getTokenByProgress', {}, {}, client);

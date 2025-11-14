@@ -4,10 +4,38 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Mcp Client Vitest Tests",
+      "name": "Http Mcp Client Tests",
       "program": "${workspaceFolder}/node_modules/vitest/vitest.mjs",
       "args": [
-        "${workspaceFolder}/src/utils/mcp/index.test.ts",
+        "${workspaceFolder}/src/utils/mcp/index.http.test.ts",
+        "--run"
+      ],
+      "cwd": "${workspaceFolder}",
+      "autoAttachChildProcesses": true,
+      "resolveSourceMapLocations": ["${workspaceFolder}/**", "!**/node_modules/**"],
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "WebSocket Mcp Client Tests",
+      "program": "${workspaceFolder}/node_modules/vitest/vitest.mjs",
+      "args": [
+        "${workspaceFolder}/src/utils/mcp/index.websocket.test.ts",
+        "--run"
+      ],
+      "cwd": "${workspaceFolder}",
+      "autoAttachChildProcesses": true,
+      "resolveSourceMapLocations": ["${workspaceFolder}/**", "!**/node_modules/**"],
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "WebSocket KeepAlive Tests",
+      "program": "${workspaceFolder}/node_modules/vitest/vitest.mjs",
+      "args": [
+        "${workspaceFolder}/src/utils/mcp/websocket.test.ts",
         "--run"
       ],
       "cwd": "${workspaceFolder}",
