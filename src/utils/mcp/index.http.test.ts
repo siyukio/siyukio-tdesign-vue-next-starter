@@ -1,7 +1,7 @@
 import type { CreateMessageRequest, ProgressNotification } from '@modelcontextprotocol/sdk/types';
 import { describe, expect, it } from 'vitest';
 
-import { getMcpClient, mcpBaseUrl, postRequest } from './index';
+import { callTool, getMcpClient, mcpBaseUrl, postRequest } from './index';
 
 describe('mcp http client', async () => {
   const authProvider = async (): Promise<string> => {
@@ -33,7 +33,7 @@ describe('mcp http client', async () => {
     const client = await mcpClient.getAsyncClient();
     try {
       for (let index = 0; index < 3; index++) {
-        const result = await mcpClient.callTool('/createAuthorization', { uid: 'hello' }, {}, client);
+        const result = await callTool(client, '/createAuthorization', { uid: 'hello' }, {});
         console.info(result);
       }
     } finally {
@@ -79,7 +79,7 @@ describe('mcp http client', async () => {
     const client = await mcpClient.getAsyncClient();
     try {
       for (let index = 0; index < 3; index++) {
-        const result = await mcpClient.callTool('/getToken', {}, {}, client);
+        const result = await callTool(client, '/getToken', {}, {});
         console.info(result);
       }
     } finally {
@@ -109,7 +109,7 @@ describe('mcp http client', async () => {
     const client = await mcpClient.getAsyncClient();
     try {
       for (let index = 0; index < 3; index++) {
-        const result = await mcpClient.callTool('/getTokenByProgress', {}, {}, client);
+        const result = await callTool(client, '/getTokenByProgress', {}, {});
         console.info(result);
       }
     } finally {
