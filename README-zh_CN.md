@@ -9,6 +9,10 @@ Siyukio Starter 是基于 Tencent TDesign 开源项目进行二次开发的前�
 
 > ⚠️ 本项目与 Tencent 或 TDesign 无任何官方关联，仅基于其 MIT 协议公开代码进行二次开发。
 
+### 组件
+
+- code-input:支持codemirror展示json、markdown
+
 ### 特性
 
 - 支持mcp websocket transport

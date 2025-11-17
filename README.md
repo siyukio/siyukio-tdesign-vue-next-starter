@@ -11,6 +11,10 @@ Original repository:
 > ⚠️ This project is **not officially affiliated** with Tencent or TDesign.  
 > It is independently built based on publicly available MIT-licensed TDesign code.
 
+### Components
+
+- code-input: Supports displaying JSON and Markdown using CodeMirror.
+
 ### Features
 
 - Support for **MCP WebSocket transport**

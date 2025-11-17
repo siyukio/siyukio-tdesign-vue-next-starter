@@ -5,6 +5,7 @@ import detailCard from './detail-card';
 import detailDeploy from './detail-deploy';
 import detailSecondary from './detail-secondary';
 import formBase from './form-base';
+import formCode from './form-code';
 import formStep from './form-step';
 import listBase from './list-base';
 import listCard from './list-card';
@@ -26,6 +27,7 @@ export default {
   detailDeploy,
   detailSecondary,
   formBase,
+  formCode,
   formStep,
   user,
   login,

@@ -247,6 +247,17 @@ export default [
                     },
                   },
                 },
+                {
+                  path: 'code',
+                  name: 'FormCode',
+                  component: '/form/code/index',
+                  meta: {
+                    title: {
+                      zh_CN: '代码表单页',
+                      en_US: 'Code Form',
+                    },
+                  },
+                },
               ],
             },
             {
