@@ -37,15 +37,15 @@
             <t-button theme="default" shape="square" variant="text">
               <translate-icon />
             </t-button>
-            <t-dropdown>
+            <template #dropdown>
               <t-dropdown-item
                 v-for="(lang, index) in langList"
                 :key="index"
                 :value="lang.value"
                 @click="(options) => changeLang(options.value as string)"
-                >{{ lang.content }}</t-dropdown-item
-              ></t-dropdown
-            >
+                >{{ lang.content }}
+              </t-dropdown-item>
+            </template>
           </t-dropdown>
           <t-dropdown :min-column-width="120" trigger="click">
             <template #dropdown>
