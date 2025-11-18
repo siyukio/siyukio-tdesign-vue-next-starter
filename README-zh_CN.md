@@ -16,6 +16,7 @@ Siyukio Starter 是基于 Tencent TDesign 开源项目进行二次开发的前�
 ### 特性
 
 - 支持mcp websocket transport
+- 支持水印
 
 ### 开发
 

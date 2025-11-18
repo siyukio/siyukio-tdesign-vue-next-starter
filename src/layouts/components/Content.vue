@@ -1,13 +1,24 @@
 <template>
   <div v-if="!isRefreshing">
-    <router-view v-if="!isFramePage" v-slot="{ Component }">
-      <transition name="fade" mode="out-in">
-        <keep-alive :include="aliveViews">
-          <component :is="Component" />
-        </keep-alive>
-      </transition>
-    </router-view>
-    <frame-page v-else />
+    <t-watermark
+      :watermark-content="[{ text: watermark, fontColor }]"
+      :line-space="24"
+      :x="100"
+      :y="120"
+      :width="158"
+      :height="22"
+      :alpha="0.15"
+      class="login-wrapper"
+    >
+      <router-view v-if="!isFramePage" v-slot="{ Component }">
+        <transition name="fade" mode="out-in">
+          <keep-alive :include="aliveViews">
+            <component :is="Component" />
+          </keep-alive>
+        </transition>
+      </router-view>
+      <frame-page v-else />
+    </t-watermark>
   </div>
 
   <t-loading v-else />
@@ -19,8 +30,12 @@ import type { ComputedRef } from 'vue';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 
+import { watermark } from '@/config/global';
 import FramePage from '@/layouts/frame/index.vue';
-import { useTabsRouterStore } from '@/store';
+import { useSettingStore, useTabsRouterStore } from '@/store';
+
+const settingStore = useSettingStore();
+const fontColor = settingStore.brandTheme;
 
 // <suspense>标签属于实验性功能，请谨慎使用
 // 如果存在需解决/page/1=> /page/2 刷新数据问题 请修改代码 使用activeRouteFullPath 作为key
