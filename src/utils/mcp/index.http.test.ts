@@ -22,7 +22,7 @@ describe('mcp http client', async () => {
     const mcpClient = await getMcpClient({
       authProvider,
     });
-    const result = await mcpClient.callTool('/createAuthorization', { uid: 'hello' });
+    const result = await mcpClient.callTool('createAuthorization', { uid: 'hello' });
     console.info(result);
   });
 
@@ -33,7 +33,7 @@ describe('mcp http client', async () => {
     const client = await mcpClient.getAsyncClient();
     try {
       for (let index = 0; index < 3; index++) {
-        const result = await callTool(client, '/createAuthorization', { uid: 'hello' }, {});
+        const result = await callTool(client, 'createAuthorization', { uid: 'hello' }, {});
         console.info(result);
       }
     } finally {
@@ -56,7 +56,7 @@ describe('mcp http client', async () => {
         };
       },
     });
-    const result = await mcpClient.callTool('/getToken', {});
+    const result = await mcpClient.callTool('getToken', {});
     console.info(result);
   });
 
@@ -79,7 +79,7 @@ describe('mcp http client', async () => {
     const client = await mcpClient.getAsyncClient();
     try {
       for (let index = 0; index < 3; index++) {
-        const result = await callTool(client, '/getToken', {}, {});
+        const result = await callTool(client, 'getToken', {}, {});
         console.info(result);
       }
     } finally {
@@ -94,7 +94,7 @@ describe('mcp http client', async () => {
         console.info('on progressNotification', progressNotification);
       },
     });
-    const result = await mcpClient.callTool('/getTokenByProgress', {});
+    const result = await mcpClient.callTool('getTokenByProgress', {});
     console.info(result);
   });
 
@@ -109,7 +109,7 @@ describe('mcp http client', async () => {
     const client = await mcpClient.getAsyncClient();
     try {
       for (let index = 0; index < 3; index++) {
-        const result = await callTool(client, '/getTokenByProgress', {}, {});
+        const result = await callTool(client, 'getTokenByProgress', {}, {});
         console.info(result);
       }
     } finally {
