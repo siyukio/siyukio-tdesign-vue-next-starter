@@ -155,6 +155,15 @@ export class MyMcpClient {
     }
   };
 
+  public ping = async (): Promise<void> => {
+    const client = await this.getAsyncClient();
+    try {
+      await client.ping();
+    } finally {
+      await this.close(client);
+    }
+  };
+
   public callTool = async (toolName: string, data: any, options?: RequestOptions): Promise<any> => {
     const params: Record<string, any> = data;
     const toolsRequest: CallToolRequest['params'] = {

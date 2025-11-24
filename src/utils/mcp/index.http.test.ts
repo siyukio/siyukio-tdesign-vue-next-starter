@@ -18,6 +18,27 @@ describe('mcp http client', async () => {
     expect(listToolsResult.tools.length).toBeGreaterThan(0);
   });
 
+  it('mcp ping', async () => {
+    const mcpClient = await getMcpClient({
+      authProvider,
+    });
+    await mcpClient.ping();
+  });
+
+  it('mcp multi ping', async () => {
+    const mcpClient = await getMcpClient({
+      authProvider,
+    });
+    const client = await mcpClient.getAsyncClient();
+    try {
+      for (let index = 0; index < 3; index++) {
+        await client.ping();
+      }
+    } finally {
+      await mcpClient.close(client);
+    }
+  });
+
   it('mcp callTool', async () => {
     const mcpClient = await getMcpClient({
       authProvider,
