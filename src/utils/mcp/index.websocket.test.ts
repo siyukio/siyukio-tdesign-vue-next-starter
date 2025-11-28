@@ -5,7 +5,7 @@ import { callTool, getMcpClient, mcpBaseUrl, postRequest } from './index';
 
 describe('mcp websocket client', async () => {
   const authProvider = async (): Promise<string> => {
-    const tokenVo = await postRequest<any>(`${mcpBaseUrl}/createAuthorization`, {
+    const tokenVo = await postRequest<any>(`${mcpBaseUrl}/authorization/create`, {
       uid: 'admin',
     });
     return tokenVo.authorization;
@@ -46,7 +46,7 @@ describe('mcp websocket client', async () => {
       authProvider,
       useWebsocket: true,
     });
-    const result = await mcpClient.callTool('createAuthorization', { uid: 'hello' });
+    const result = await mcpClient.callTool('authorization.create', { uid: 'hello' });
     console.info(result);
   });
 
@@ -58,7 +58,7 @@ describe('mcp websocket client', async () => {
     const client = await mcpClient.getAsyncClient();
     try {
       for (let index = 0; index < 3; index++) {
-        const result = await callTool(client, 'createAuthorization', { uid: 'hello' }, {});
+        const result = await callTool(client, 'authorization.create', { uid: 'hello' }, {});
         console.info(result);
       }
     } finally {
@@ -82,7 +82,7 @@ describe('mcp websocket client', async () => {
         };
       },
     });
-    const result = await mcpClient.callTool('getToken', {});
+    const result = await mcpClient.callTool('token.get', {});
     console.info(result);
   });
 
@@ -106,7 +106,7 @@ describe('mcp websocket client', async () => {
     const client = await mcpClient.getAsyncClient();
     try {
       for (let index = 0; index < 3; index++) {
-        const result = await callTool(client, 'getToken', {}, {});
+        const result = await callTool(client, 'token.get', {}, {});
         console.info(result);
       }
     } finally {
@@ -122,7 +122,7 @@ describe('mcp websocket client', async () => {
         console.info('on progressNotification', progressNotification);
       },
     });
-    const result = await mcpClient.callTool('getTokenByProgress', {});
+    const result = await mcpClient.callTool('token.getByProgress', {});
     console.info(result);
   });
 
@@ -138,7 +138,7 @@ describe('mcp websocket client', async () => {
     const client = await mcpClient.getAsyncClient();
     try {
       for (let index = 0; index < 3; index++) {
-        const result = await callTool(client, 'getTokenByProgress', {}, {});
+        const result = await callTool(client, 'token.getByProgress', {}, {});
         console.info(result);
       }
     } finally {

@@ -4,7 +4,7 @@ import { getMcpClient, mcpBaseUrl, postRequest } from './index';
 
 describe('keepAlive mcp websocket client', async () => {
   const authProvider = async (): Promise<string> => {
-    const tokenVo = await postRequest<any>(`${mcpBaseUrl}/createAuthorization`, {
+    const tokenVo = await postRequest<any>(`${mcpBaseUrl}/authorization/create`, {
       uid: 'admin',
     });
     return tokenVo.authorization;
