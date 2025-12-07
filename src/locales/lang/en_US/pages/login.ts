@@ -5,6 +5,7 @@ export default {
   remember: 'Remember Account',
   forget: 'Forget Account',
   signIn: 'Sign in',
+  register: 'Sign up',
   existAccount: 'Exist Account?',
   refresh: 'refresh',
   wechatLogin: 'Login with WeChat',
@@ -23,4 +24,10 @@ export default {
     verification: 'verification code is require',
   },
   sendVerification: 'send',
+  resendAfter: ' seconds',
+  signUpWithEmail: 'Sign up with Email',
+  signUpWithPhone: 'Sign up with Phone',
+  agreeToTerms: 'I agree to the Siyukio',
+  termsOfService: 'Terms of Service',
+  privacyPolicy: 'Privacy Policy',
 };

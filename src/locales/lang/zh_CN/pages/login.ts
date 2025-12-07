@@ -24,4 +24,10 @@ export default {
     verification: '验证码必填',
   },
   sendVerification: '发送验证码',
+  resendAfter: ' 秒',
+  signUpWithEmail: '使用邮箱注册',
+  signUpWithPhone: '使用手机号注册',
+  agreeToTerms: '我已阅读并同意 Siyukio',
+  termsOfService: '服务条款',
+  privacyPolicy: '隐私政策',
 };
