@@ -16,12 +16,18 @@ export default {
     password: 'please enter password',
     phone: 'please enter phone',
     verification: 'please enter verification code',
+    email: 'please enter email',
   },
   required: {
     account: 'account is required',
     phone: 'phone is required',
     password: 'password is required',
     verification: 'verification code is require',
+    email: 'email is required',
+  },
+  invalid: {
+    email: 'please enter a valid email',
+    agreement: 'Please agree to Siyukio Terms of Service and Privacy Policy',
   },
   sendVerification: 'send',
   resendAfter: ' seconds',
@@ -30,4 +36,6 @@ export default {
   agreeToTerms: 'I agree to the Siyukio',
   termsOfService: 'Terms of Service',
   privacyPolicy: 'Privacy Policy',
+  loginSuccess: 'Login Successful',
+  registerSuccess: 'Registration Successful',
 };

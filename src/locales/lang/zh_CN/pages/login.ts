@@ -22,6 +22,11 @@ export default {
     phone: '手机号必填',
     password: '密码必填',
     verification: '验证码必填',
+    email: '邮箱必填',
+  },
+  invalid: {
+    email: '请输入正确的邮箱',
+    agreement: '请同意 Siyukio 服务条款和隐私政策',
   },
   sendVerification: '发送验证码',
   resendAfter: ' 秒',
@@ -30,4 +35,6 @@ export default {
   agreeToTerms: '我已阅读并同意 Siyukio',
   termsOfService: '服务条款',
   privacyPolicy: '隐私政策',
+  loginSuccess: '登录成功',
+  registerSuccess: '注册成功',
 };

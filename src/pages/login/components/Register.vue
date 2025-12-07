@@ -90,13 +90,13 @@ const INITIAL_DATA = {
 };
 
 const FORM_RULES: Record<string, FormRule[]> = {
-  phone: [{ required: true, message: '手机号必填', type: 'error' }],
+  phone: [{ required: true, message: t('pages.login.required.phone'), type: 'error' }],
   email: [
-    { required: true, message: '邮箱必填', type: 'error' },
-    { email: true, message: '请输入正确的邮箱', type: 'warning' },
+    { required: true, message: t('pages.login.required.email'), type: 'error' },
+    { email: true, message: t('pages.login.invalid.email'), type: 'warning' },
   ],
-  password: [{ required: true, message: '密码必填', type: 'error' }],
-  verifyCode: [{ required: true, message: '验证码必填', type: 'error' }],
+  password: [{ required: true, message: t('pages.login.required.password'), type: 'error' }],
+  verifyCode: [{ required: true, message: t('pages.login.required.verification'), type: 'error' }],
 };
 
 const type = ref('phone');
@@ -111,10 +111,10 @@ const [countDown, handleCounter] = useCounter();
 const onSubmit = (ctx: SubmitContext) => {
   if (ctx.validateResult === true) {
     if (!formData.value.checked) {
-      MessagePlugin.error('请同意 Siyukio 服务协议和 Siyukio 隐私声明');
+      MessagePlugin.error(t('pages.login.invalid.agreement'));
       return;
     }
-    MessagePlugin.success('注册成功');
+    MessagePlugin.success(t('pages.login.registerSuccess'));
     emit('register-success');
   }
 };
