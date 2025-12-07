@@ -28,7 +28,7 @@
         <tdesign-setting />
       </div>
 
-      <footer class="copyright">Copyright @ 2021-2025 Tencent. All Rights Reserved</footer>
+      <footer class="copyright">Copyright @ 2021-2025 Siyukio. All Rights Reserved</footer>
     </t-watermark>
   </t-layout>
 </template>
