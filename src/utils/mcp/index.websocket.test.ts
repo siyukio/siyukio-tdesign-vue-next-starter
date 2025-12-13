@@ -1,18 +1,20 @@
 import type { CreateMessageRequest, ProgressNotification } from '@modelcontextprotocol/sdk/types';
 import { describe, expect, it } from 'vitest';
 
-import { callTool, getMcpClient, mcpBaseUrl, postRequest } from './index';
+import { callTool, getMcpClient, mcpBaseUrl, postRequest, setDefaultAuthProvider } from './index';
 
 describe('mcp websocket client', async () => {
   const authProvider = async (): Promise<string> => {
-    const tokenVo = await postRequest<any>(`${mcpBaseUrl}/authorization/create`, {
+    const tokenResponse = await postRequest<any>(`${mcpBaseUrl}/authorization/create`, {
       uid: 'admin',
     });
-    return tokenVo.authorization;
+    return tokenResponse.accessToken;
   };
 
+  setDefaultAuthProvider(authProvider);
+
   it('listTools', async () => {
-    const mcpClient = await getMcpClient({ authProvider, useWebsocket: true });
+    const mcpClient = await getMcpClient({ useWebsocket: true });
     const listToolsResult = await mcpClient.listTools();
     console.info(listToolsResult.tools);
     expect(listToolsResult.tools.length).toBeGreaterThan(0);
@@ -20,7 +22,6 @@ describe('mcp websocket client', async () => {
 
   it('mcp ping', async () => {
     const mcpClient = await getMcpClient({
-      authProvider,
       useWebsocket: true,
     });
     await mcpClient.ping();
@@ -28,7 +29,6 @@ describe('mcp websocket client', async () => {
 
   it('mcp multi ping', async () => {
     const mcpClient = await getMcpClient({
-      authProvider,
       useWebsocket: true,
     });
     const client = await mcpClient.getAsyncClient();
@@ -43,7 +43,6 @@ describe('mcp websocket client', async () => {
 
   it('mcp callTool', async () => {
     const mcpClient = await getMcpClient({
-      authProvider,
       useWebsocket: true,
     });
     const result = await mcpClient.callTool('authorization.create', { uid: 'hello' });
@@ -52,7 +51,6 @@ describe('mcp websocket client', async () => {
 
   it('mcp multi callTool', async () => {
     const mcpClient = await getMcpClient({
-      authProvider,
       useWebsocket: true,
     });
     const client = await mcpClient.getAsyncClient();
@@ -68,7 +66,6 @@ describe('mcp websocket client', async () => {
 
   it('mcp callTool sampling', async () => {
     const mcpClient = await getMcpClient({
-      authProvider,
       useWebsocket: true,
       samplingHandler: async (createMessageRequest: CreateMessageRequest) => {
         console.info('on createMessageRequest', createMessageRequest);
@@ -88,7 +85,6 @@ describe('mcp websocket client', async () => {
 
   it('mcp multi callTool sampling', async () => {
     const mcpClient = await getMcpClient({
-      authProvider,
       useWebsocket: true,
       samplingHandler: async (createMessageRequest: CreateMessageRequest) => {
         console.info('on multi createMessageRequest', createMessageRequest);
@@ -116,7 +112,6 @@ describe('mcp websocket client', async () => {
 
   it('mcp callTool progress', async () => {
     const mcpClient = await getMcpClient({
-      authProvider,
       useWebsocket: true,
       progressHandler: (progressNotification: ProgressNotification) => {
         console.info('on progressNotification', progressNotification);
@@ -128,7 +123,6 @@ describe('mcp websocket client', async () => {
 
   it('mcp multi callTool progress', async () => {
     const mcpClient = await getMcpClient({
-      authProvider,
       useWebsocket: true,
       progressHandler: (progressNotification: ProgressNotification) => {
         console.info('on multi progressNotification', progressNotification);

@@ -68,7 +68,7 @@ const doResult = (toolName: string, toolResult: CallToolResult): any => {
   }
 };
 
-export class MyMcpClient {
+export class McpClient {
   private readonly _options: CreateMcpClientOptions;
 
   constructor(options: CreateMcpClientOptions) {
@@ -81,6 +81,9 @@ export class MyMcpClient {
     let accessToken = '';
     if (this._options.authProvider) {
       accessToken = await this._options.authProvider();
+      if (!accessToken) {
+        accessToken = '';
+      }
     }
     let transport;
     if (this._options.useWebsocket) {
@@ -200,12 +203,39 @@ export const postRequest = async <T = any>(url: string, data: any = {}, config?:
   }
 };
 
+let defaultAuthProvider = (): Promise<string> => {
+  return Promise.resolve('');
+};
+
+export const setDefaultAuthProvider = (authProvider: () => Promise<string>) => {
+  defaultAuthProvider = authProvider;
+};
+
+export const createAndSetDefaultAuthProvider = (refreshPath: string, refreshToken: string) => {
+  defaultAuthProvider = async () => {
+    const tokenResponse = await postRequest<any>(`${mcpBaseUrl}${refreshPath}`, {
+      refreshToken,
+    });
+
+    if (tokenResponse.error) {
+      throw new Error(`createAndSetDefaultAuthProvider error: ${tokenResponse.error.message}`);
+    }
+    return tokenResponse.accessToken;
+  };
+};
+
 export const getMcpClient = async (options?: CreateMcpClientOptions) => {
-  if (options && !options.baseUrl) {
+  if (!options) {
+    options = {};
+  }
+  if (!options.baseUrl) {
     options.baseUrl = mcpBaseUrl;
   }
-  if (options && !options.mcpEndpoint) {
+  if (!options.mcpEndpoint) {
     options.mcpEndpoint = mcpEndpoint;
   }
-  return new MyMcpClient(options);
+  if (!options.authProvider) {
+    options.authProvider = defaultAuthProvider;
+  }
+  return new McpClient(options);
 };
