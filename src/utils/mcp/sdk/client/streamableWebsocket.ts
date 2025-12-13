@@ -1,7 +1,7 @@
 import type { Transport } from '@modelcontextprotocol/sdk/shared/transport';
 import type { JSONRPCMessage } from '@modelcontextprotocol/sdk/types';
 import {
-  isInitializedNotification,
+  isJSONRPCNotification,
   isJSONRPCRequest,
   isJSONRPCResponse,
   JSONRPCMessageSchema,
@@ -174,7 +174,7 @@ export class StreamableWebsocketClientTransport implements Transport {
     console.debug('start receiveAsync...');
     this._webSocketClient.receiveAsync((receivedMessage: WebSocketMessage) => {
       const message = JSONRPCMessageSchema.parse(receivedMessage.body);
-      if (isInitializedNotification(message) || isJSONRPCRequest(message)) {
+      if (isJSONRPCNotification(message) || isJSONRPCRequest(message)) {
         this.onmessage?.(message);
       }
     });
