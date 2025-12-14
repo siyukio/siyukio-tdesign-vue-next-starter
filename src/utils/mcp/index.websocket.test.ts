@@ -1,11 +1,11 @@
 import type { CreateMessageRequest, ProgressNotification } from '@modelcontextprotocol/sdk/types';
 import { describe, expect, it } from 'vitest';
 
-import { callTool, getMcpClient, mcpBaseUrl, postRequest, setDefaultAuthProvider } from './index';
+import { callTool, getMcpClient, postRequest, setDefaultAuthProvider } from './index';
 
 describe('mcp websocket client', async () => {
   const authProvider = async (): Promise<string> => {
-    const tokenResponse = await postRequest<any>(`${mcpBaseUrl}/authorization/create`, {
+    const tokenResponse = await postRequest('/authorization/create', {
       uid: 'admin',
     });
     return tokenResponse.accessToken;
@@ -14,23 +14,19 @@ describe('mcp websocket client', async () => {
   setDefaultAuthProvider(authProvider);
 
   it('listTools', async () => {
-    const mcpClient = await getMcpClient({ useWebsocket: true });
+    const mcpClient = await getMcpClient();
     const listToolsResult = await mcpClient.listTools();
     console.info(listToolsResult.tools);
     expect(listToolsResult.tools.length).toBeGreaterThan(0);
   });
 
   it('mcp ping', async () => {
-    const mcpClient = await getMcpClient({
-      useWebsocket: true,
-    });
+    const mcpClient = await getMcpClient();
     await mcpClient.ping();
   });
 
   it('mcp multi ping', async () => {
-    const mcpClient = await getMcpClient({
-      useWebsocket: true,
-    });
+    const mcpClient = await getMcpClient();
     const client = await mcpClient.getAsyncClient();
     try {
       for (let index = 0; index < 3; index++) {
@@ -42,17 +38,13 @@ describe('mcp websocket client', async () => {
   });
 
   it('mcp callTool', async () => {
-    const mcpClient = await getMcpClient({
-      useWebsocket: true,
-    });
+    const mcpClient = await getMcpClient();
     const result = await mcpClient.callTool('authorization.create', { uid: 'hello' });
     console.info(result);
   });
 
   it('mcp multi callTool', async () => {
-    const mcpClient = await getMcpClient({
-      useWebsocket: true,
-    });
+    const mcpClient = await getMcpClient();
     const client = await mcpClient.getAsyncClient();
     try {
       for (let index = 0; index < 3; index++) {
@@ -66,9 +58,8 @@ describe('mcp websocket client', async () => {
 
   it('mcp callTool sampling', async () => {
     const mcpClient = await getMcpClient({
-      useWebsocket: true,
       samplingHandler: async (createMessageRequest: CreateMessageRequest) => {
-        console.info('on createMessageRequest', createMessageRequest);
+        console.info('on createMessageRequest', createMessageRequest.params.messages);
         return {
           model: 'test-model',
           role: 'assistant',
@@ -85,9 +76,8 @@ describe('mcp websocket client', async () => {
 
   it('mcp multi callTool sampling', async () => {
     const mcpClient = await getMcpClient({
-      useWebsocket: true,
       samplingHandler: async (createMessageRequest: CreateMessageRequest) => {
-        console.info('on multi createMessageRequest', createMessageRequest);
+        console.info('on multi createMessageRequest', createMessageRequest.params.messages);
         return {
           model: 'test-model',
           role: 'assistant',
@@ -112,9 +102,10 @@ describe('mcp websocket client', async () => {
 
   it('mcp callTool progress', async () => {
     const mcpClient = await getMcpClient({
-      useWebsocket: true,
       progressHandler: (progressNotification: ProgressNotification) => {
-        console.info('on progressNotification', progressNotification);
+        if (progressNotification) {
+          console.info('on progressNotification', progressNotification.params.message);
+        }
       },
     });
     const result = await mcpClient.callTool('token.getByProgress', {});
@@ -123,9 +114,10 @@ describe('mcp websocket client', async () => {
 
   it('mcp multi callTool progress', async () => {
     const mcpClient = await getMcpClient({
-      useWebsocket: true,
       progressHandler: (progressNotification: ProgressNotification) => {
-        console.info('on multi progressNotification', progressNotification);
+        if (progressNotification) {
+          console.info('on multi progressNotification', progressNotification.params.message);
+        }
       },
     });
 

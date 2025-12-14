@@ -65,7 +65,6 @@ class WebSocketClient {
   };
 
   private handleText = (text: string) => {
-    console.debug(`handleText: ${text}`);
     const receivedMessage = JSON.parse(text) as WebSocketMessage;
     const furute = this._pendingMap.get(receivedMessage.id);
     if (furute) {

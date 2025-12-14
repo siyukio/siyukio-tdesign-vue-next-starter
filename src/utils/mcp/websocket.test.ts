@@ -1,10 +1,10 @@
 import { describe, it } from 'vitest';
 
-import { getMcpClient, mcpBaseUrl, postRequest } from './index';
+import { getMcpClient, postRequest } from './index';
 
 describe('keepAlive mcp websocket client', async () => {
   const authProvider = async (): Promise<string> => {
-    const tokenResponse = await postRequest<any>(`${mcpBaseUrl}/authorization/create`, {
+    const tokenResponse = await postRequest<any>('/authorization/create', {
       uid: 'admin',
     });
     return tokenResponse.accessToken;
@@ -17,7 +17,6 @@ describe('keepAlive mcp websocket client', async () => {
   it('keepAlive', async () => {
     const mcpClient = await getMcpClient({
       authProvider,
-      useWebsocket: true,
     });
 
     const client = await mcpClient.getAsyncClient();

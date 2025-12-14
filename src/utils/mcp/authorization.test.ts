@@ -9,7 +9,7 @@ describe('authorization mcp websocket client', async () => {
   );
 
   it('listTools', async () => {
-    const mcpClient = await getMcpClient({ useWebsocket: true });
+    const mcpClient = await getMcpClient();
     const listToolsResult = await mcpClient.listTools();
     console.info(listToolsResult.tools);
     expect(listToolsResult.tools.length).toBeGreaterThan(0);
