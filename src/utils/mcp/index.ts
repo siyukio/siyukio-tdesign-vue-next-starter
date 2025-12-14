@@ -232,16 +232,25 @@ export const postRequestWithAuth = async <T = any>(
   }
 };
 
+export const getAccessToken = async () => {
+  return await defaultAuthProvider();
+};
+
+export const setAccessToken = (accessToken: string) => {
+  authCache.accessToken = accessToken;
+  authCache.refreshAt = new Date().getTime();
+};
+
 export const setDefaultAuthProvider = (authProvider: () => Promise<string>) => {
   defaultAuthProvider = authProvider;
 };
 
-export const createAndSetDefaultAuthProvider = (refreshPath: string, refreshToken: string) => {
+export const createAndSetDefaultAuthProvider = (refreshApi: string, refreshToken: string) => {
   defaultAuthProvider = async () => {
     if (new Date().getTime() - authCache.refreshAt <= authCache.maxTime && authCache.accessToken) {
       return authCache.accessToken;
     }
-    const tokenResponse = await postRequest<any>(refreshPath, {
+    const tokenResponse = await postRequest<any>(refreshApi, {
       refreshToken,
     });
 
