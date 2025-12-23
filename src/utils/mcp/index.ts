@@ -19,11 +19,22 @@ import {
 } from '@modelcontextprotocol/sdk/types';
 import type { AxiosRequestConfig } from 'axios';
 import axios from 'axios';
+import { MessagePlugin } from 'tdesign-vue-next';
 
 import { StreamableWebsocketClientTransport } from '@/utils/mcp/sdk/client/streamableWebsocket';
 
 export const mcpBaseUrl = import.meta.env.VITE_MCP_BASE_URL || '';
 const mcpEndpoint = import.meta.env.VITE_MCP_ENDPOINT || '/mcp';
+
+export class ApiError {
+  code: number;
+  message: string;
+  constructor(code: number, message: string) {
+    this.code = code;
+    this.message = message;
+    MessagePlugin.error(message);
+  }
+}
 
 export interface CreateMcpClientOptions {
   baseUrl?: string;
@@ -42,19 +53,19 @@ export interface CreateMcpClientOptions {
 }
 const doResult = (toolName: string, toolResult: CallToolResult): any => {
   if (!toolResult) {
-    throw new Error(`call ${toolName} error: Result is null.`);
+    throw new ApiError(502, `call ${toolName} error: Result is null.`);
   } else if (toolResult.isError) {
     if (toolResult.structuredContent) {
       const callResult: any = toolResult.structuredContent;
-      throw new Error(`${callResult?.error.message}`);
+      throw new ApiError(callResult?.error.code, callResult?.error.message);
     } else {
       if (toolResult.content && Array.isArray(toolResult.content)) {
         const content = toolResult.content;
         if (content.length === 0 || content[0].type !== 'text') {
-          console.error(`callTool error:${toolName}`, toolResult);
-          throw new Error(`call ${toolName} error: Unable to process the result.`);
+          throw new ApiError(502, `call ${toolName} error: Unable to process the result.`);
         } else {
-          throw new Error(`${content[0].text}`);
+          console.error(`callTool error:${toolName}`, content[0].text);
+          throw new ApiError(500, content[0].text);
         }
       }
     }
@@ -207,7 +218,12 @@ export const postRequest = async <T = any>(path: string, data: any = {}, config?
   const url = mcpBaseUrl + path;
   try {
     const response = await axios.post<T>(url, data, config);
-    return response.data;
+    const responseData = response.data as any;
+    const { error } = responseData;
+    if (error) {
+      throw new ApiError(error.code, error.message);
+    }
+    return responseData;
   } catch (error: any) {
     console.error('POST error:', error);
     throw error;
