@@ -52,7 +52,7 @@ export const useUserStore = defineStore('user-me', {
         setAccessToken(this.accessToken);
       }
       if (this.refreshToken) {
-        createAndSetDefaultAuthProvider(auth.Api.Refresh, this.refreshToken);
+        createAndSetDefaultAuthProvider(auth.AuthApi.Refresh, this.refreshToken);
 
         await this.getUserInfo();
         const permissionStore = usePermissionStore();

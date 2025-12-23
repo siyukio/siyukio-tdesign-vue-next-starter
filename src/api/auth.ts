@@ -1,28 +1,24 @@
 import { postRequest } from '@/utils/mcp';
 
-export const Api = {
+export const AuthApi = {
   Register: '/auth/register',
   Login: '/auth/login',
   Refresh: '/auth/refresh',
 };
 
-export interface RefisterRequest {
-  username: string;
-  passwor: string;
-  nickname: string;
-}
-
-export interface RegisterResponse {
-  userId: string;
-  nickname: string;
-}
-
-export const register = async (request: RefisterRequest) => {
-  return await postRequest<RegisterResponse>(Api.Register, request);
-};
 export interface LoginRequest {
   username: string;
   password: string;
+}
+
+export interface RefisterRequest {
+  username: string;
+  password: string;
+  nickname: string;
+}
+
+export interface RefreshTokenRequest {
+  refreshToken: string;
 }
 
 export interface AuthResponse {
@@ -32,14 +28,19 @@ export interface AuthResponse {
   refreshToken: string;
 }
 
-export const login = async (request: LoginRequest) => {
-  return await postRequest<AuthResponse>(Api.Login, request);
-};
-
-export interface RefreshTokenRequest {
-  refreshToken: string;
+export interface RegisterResponse {
+  userId: string;
+  nickname: string;
 }
 
+export const register = async (request: RefisterRequest) => {
+  return await postRequest<RegisterResponse>(AuthApi.Register, request);
+};
+
+export const login = async (request: LoginRequest) => {
+  return await postRequest<AuthResponse>(AuthApi.Login, request);
+};
+
 export const refresh = async (request: RefreshTokenRequest) => {
-  return await postRequest<AuthResponse>(Api.Refresh, request);
+  return await postRequest<AuthResponse>(AuthApi.Refresh, request);
 };

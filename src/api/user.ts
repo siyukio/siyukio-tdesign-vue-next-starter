@@ -1,6 +1,6 @@
 import { postRequestWithAuth } from '@/utils/mcp';
 
-export const Api = {
+export const UserApi = {
   Me: '/user/me',
 };
 
@@ -11,5 +11,5 @@ export interface UserResponse {
 }
 
 export const me = async () => {
-  return await postRequestWithAuth<UserResponse>(Api.Me, {});
+  return await postRequestWithAuth<UserResponse>(UserApi.Me, {});
 };
