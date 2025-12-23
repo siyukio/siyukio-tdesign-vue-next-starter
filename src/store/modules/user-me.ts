@@ -28,9 +28,8 @@ export const useUserStore = defineStore('user-me', {
     },
   },
   actions: {
-    async login() {
-      // custom login
-      const res = await auth.login({ username: 'admin', password: 'admin123' });
+    async login(req: auth.LoginRequest) {
+      const res = await auth.login(req);
       this.accessToken = res.accessToken;
       this.refreshToken = res.refreshToken;
       await this.initAuthProvider();
