@@ -23,7 +23,6 @@ const handleClick = async (_e: MouseEvent) => {
 
   try {
     loading.value = true;
-    console.log('loading', loading.value);
     if (props.onClick) {
       const result = props.onClick(_e);
       if (result instanceof Promise) {
@@ -32,7 +31,6 @@ const handleClick = async (_e: MouseEvent) => {
     }
   } finally {
     loading.value = false;
-    console.log('loading', loading.value);
   }
 };
 </script>
