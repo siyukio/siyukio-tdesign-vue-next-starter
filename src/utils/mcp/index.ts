@@ -19,7 +19,6 @@ import {
 } from '@modelcontextprotocol/sdk/types';
 import type { AxiosRequestConfig } from 'axios';
 import axios from 'axios';
-import { MessagePlugin } from 'tdesign-vue-next';
 
 import { StreamableWebsocketClientTransport } from '@/utils/mcp/sdk/client/streamableWebsocket';
 
@@ -32,9 +31,31 @@ export class ApiError {
   constructor(code: number, message: string) {
     this.code = code;
     this.message = message;
-    MessagePlugin.error(message);
   }
 }
+
+// Hook types
+export type RequestPreHook = (path: string, data: any, options?: RequestOptions | AxiosRequestConfig) => void;
+export type RequestCompleteHook = (path: string, data: any, options?: RequestOptions | AxiosRequestConfig) => void;
+export type RequestErrorHook = (apiError: ApiError, path: string, data: any) => void;
+
+// Default empty implementations
+let defaultPreHook: RequestPreHook = () => {};
+let defaultCompleteHook: RequestCompleteHook = () => {};
+let defaultErrorHook: RequestErrorHook = () => {};
+
+// Setters for external configuration
+export const setRequestPreHook = (hook: RequestPreHook) => {
+  defaultPreHook = hook;
+};
+
+export const setRequestCompleteHook = (hook: RequestCompleteHook) => {
+  defaultCompleteHook = hook;
+};
+
+export const setRequestErrorHook = (hook: RequestErrorHook) => {
+  defaultErrorHook = hook;
+};
 
 export interface CreateMcpClientOptions {
   baseUrl?: string;
@@ -51,21 +72,29 @@ export interface CreateMcpClientOptions {
   samplingHandler?: (createMessageRequest: CreateMessageRequest) => Promise<ClientResult>;
   authProvider?: () => Promise<string>;
 }
-const doResult = (toolName: string, toolResult: CallToolResult): any => {
+const doResult = (toolName: string, data: any, toolResult: CallToolResult): any => {
   if (!toolResult) {
-    throw new ApiError(502, `call ${toolName} error: Result is null.`);
+    const apiError = new ApiError(502, `call ${toolName} error: Result is null.`);
+    defaultErrorHook(apiError, toolName, data);
+    throw apiError;
   } else if (toolResult.isError) {
     if (toolResult.structuredContent) {
       const callResult: any = toolResult.structuredContent;
-      throw new ApiError(callResult?.error.code, callResult?.error.message);
+      const apiError = new ApiError(callResult?.error.code, callResult?.error.message);
+      defaultErrorHook(apiError, toolName, data);
+      throw apiError;
     } else {
       if (toolResult.content && Array.isArray(toolResult.content)) {
         const content = toolResult.content;
         if (content.length === 0 || content[0].type !== 'text') {
-          throw new ApiError(502, `call ${toolName} error: Unable to process the result.`);
+          const apiError = new ApiError(502, `call ${toolName} error: Unable to process the result.`);
+          defaultErrorHook(apiError, toolName, data);
+          throw apiError;
         } else {
           console.error(`callTool error:${toolName}`, content[0].text);
-          throw new ApiError(500, content[0].text);
+          const apiError = new ApiError(500, content[0].text);
+          defaultErrorHook(apiError, toolName, data);
+          throw apiError;
         }
       }
     }
@@ -174,6 +203,8 @@ export class McpClient {
   };
 
   public callTool = async <T = any>(toolName: string, data: any, options?: RequestOptions): Promise<T> => {
+    defaultPreHook(toolName, data, options);
+
     const params: Record<string, any> = data;
     const toolsRequest: CallToolRequest['params'] = {
       name: toolName,
@@ -182,9 +213,10 @@ export class McpClient {
     const client = await this.getAsyncClient();
     try {
       const toolResult = await client.callTool(toolsRequest, CallToolResultSchema, options);
-      return doResult(toolName, toolResult);
+      return doResult(toolName, data, toolResult);
     } finally {
       await this.close(client);
+      defaultCompleteHook(toolName, data, options);
     }
   };
 }
@@ -201,7 +233,7 @@ export const callTool = async <T = any>(
     arguments: params,
   };
   const toolResult = await client.callTool(toolsRequest, CallToolResultSchema, options);
-  return doResult(toolName, toolResult);
+  return doResult(toolName, data, toolResult);
 };
 
 const authCache = {
@@ -215,18 +247,27 @@ let defaultAuthProvider = (): Promise<string> => {
 };
 
 export const postRequest = async <T = any>(path: string, data: any = {}, config?: AxiosRequestConfig): Promise<T> => {
+  defaultPreHook(path, data, config);
+
   const url = mcpBaseUrl + path;
   try {
     const response = await axios.post<T>(url, data, config);
     const responseData = response.data as any;
     const { error } = responseData;
     if (error) {
-      throw new ApiError(error.code, error.message);
+      const apiError = new ApiError(error.code, error.message);
+      defaultErrorHook(apiError, path, data);
+      throw apiError;
     }
     return responseData;
   } catch (error: any) {
+    if (error instanceof ApiError) {
+      throw error;
+    }
     console.error('POST error:', error);
     throw error;
+  } finally {
+    defaultCompleteHook(path, data, config);
   }
 };
 
@@ -235,17 +276,10 @@ export const postRequestWithAuth = async <T = any>(
   data: any = {},
   config?: AxiosRequestConfig,
 ): Promise<T> => {
-  const url = mcpBaseUrl + path;
   config = config ?? {};
   config.headers = config.headers ?? {};
   config.headers.Authorization = await defaultAuthProvider();
-  try {
-    const response = await axios.post<T>(url, data, config);
-    return response.data;
-  } catch (error: any) {
-    console.error('POST error:', error);
-    throw error;
-  }
+  return postRequest(path, data, config);
 };
 
 export const getAccessToken = async () => {
