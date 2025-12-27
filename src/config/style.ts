@@ -6,7 +6,7 @@ export default {
   mode: 'auto',
   layout: 'side',
   splitMenu: false,
-  sideMode: 'dark',
+  sideMode: 'light',
   isFooterAside: false,
   isSidebarFixed: true,
   isHeaderFixed: true,
