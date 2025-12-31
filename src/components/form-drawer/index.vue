@@ -4,6 +4,7 @@
     :title="title"
     :size="size"
     :confirm-text="confirmText"
+    :cancel-text="cancelText"
     :show-confirm-btn="showConfirmBtn"
     :show-cancel-btn="showCancelBtn"
     :show-close-btn="showCloseBtn"

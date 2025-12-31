@@ -8,6 +8,7 @@
     :cancel-btn="null"
     class="common-drawer"
     @close-btn-click="handleClose"
+    @overlay-click="handleClose"
   >
     <slot />
     <template #footer>
