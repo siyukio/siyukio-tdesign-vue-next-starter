@@ -11,7 +11,7 @@
     @confirm="handleConfirm"
     @cancel="handleCancel"
   >
-    <t-form ref="formRef" :data="formData" :rules="formRules">
+    <t-form ref="formRef" :data="formData" :rules="formRules" :label-width="labelWidth">
       <slot />
     </t-form>
   </common-drawer>
@@ -26,7 +26,6 @@ interface Props {
   visible: boolean;
   title?: string;
   size?: string;
-
   confirmText?: string;
   cancelText?: string;
   showConfirmBtn?: boolean;
@@ -34,6 +33,7 @@ interface Props {
   showCloseBtn?: boolean;
   formData: any;
   formRules: Record<string, FormRule[]>;
+  labelWidth?: string | number;
 }
 
 interface Emits {
