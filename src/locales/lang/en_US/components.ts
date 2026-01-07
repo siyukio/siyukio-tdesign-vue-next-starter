@@ -1,4 +1,7 @@
 export default {
+  copy: 'Copy',
+  fullscreen: 'Fullscreen',
+  copySuccess: 'Copy success',
   isSetup: {
     on: 'Enabled',
     off: 'Disabled',

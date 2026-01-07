@@ -1,4 +1,7 @@
 export default {
+  copy: '复制',
+  fullscreen: '全屏',
+  copySuccess: '复制成功',
   isSetup: {
     on: '已启用',
     off: '已停用',
