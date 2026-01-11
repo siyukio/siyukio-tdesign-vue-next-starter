@@ -86,11 +86,11 @@ export const showConfirmDialog = (options: ConfirmDialogOptions): void => {
   });
 };
 
-export const showDeleteConfirm = (itemName: string, onConfirm: () => Promise<void> | void, onSuccess?: () => void) => {
+export const showRemoveConfirm = (itemName: string, onConfirm: () => Promise<void> | void, onSuccess?: () => void) => {
   return showConfirmDialog({
-    title: t('pages.common.deleteConfirm'),
-    content: t('pages.common.deleteConfirmContent', { item: itemName }),
-    confirmText: t('pages.common.delete'),
+    title: t('pages.common.removeConfirm'),
+    content: t('pages.common.removeConfirmContent', { item: itemName }),
+    confirmText: t('pages.common.remove'),
     confirmTheme: 'danger',
     theme: 'danger',
     onConfirm,
