@@ -1,4 +1,5 @@
 export default {
+  format: '格式化',
   copy: '复制',
   fullscreen: '全屏',
   copySuccess: '复制成功',

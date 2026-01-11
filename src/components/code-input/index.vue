@@ -1,6 +1,9 @@
 <template>
-  <t-space direction="vertical" style="overflow: hidden" size="1px">
+  <t-space direction="vertical" style="width: 100%" size="1px">
     <t-space style="margin-top: 4px" size="1px">
+      <t-button v-if="format === 'json'" size="small" theme="primary" variant="text" @click="handleClickFormat">{{
+        t('components.format')
+      }}</t-button>
       <t-button size="small" theme="primary" variant="text" @click="handleClickFullscreen">{{
         t('components.fullscreen')
       }}</t-button>
@@ -12,7 +15,6 @@
       :model-value="modelValue"
       :style="{ height: props.height, width: props.width }"
       :extensions="extensions"
-      style="display: contents"
       @change="onChange"
     />
   </t-space>
@@ -64,6 +66,18 @@ if (props.format === 'json') {
 
 const onChange = (newValue: any) => {
   emit('update:modelValue', newValue);
+};
+
+const handleClickFormat = () => {
+  try {
+    if (props.format === 'json' && props.modelValue) {
+      const parsed = JSON.parse(props.modelValue);
+      const formatted = JSON.stringify(parsed, null, 2);
+      emit('update:modelValue', formatted);
+    }
+  } catch (error) {
+    console.error('JSON parse error:', error);
+  }
 };
 
 const handleClickCopyToClipboard = () => {

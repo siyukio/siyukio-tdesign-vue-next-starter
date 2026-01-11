@@ -1,4 +1,5 @@
 export default {
+  format: 'Format',
   copy: 'Copy',
   fullscreen: 'Fullscreen',
   copySuccess: 'Copy success',

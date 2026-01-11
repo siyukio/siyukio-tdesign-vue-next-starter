@@ -6,7 +6,6 @@
     :size="size"
     :confirm-btn="null"
     :cancel-btn="null"
-    class="common-drawer"
     @close-btn-click="handleClose"
     @overlay-click="handleClose"
   >
