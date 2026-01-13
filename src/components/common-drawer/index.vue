@@ -6,6 +6,7 @@
     :size="size"
     :confirm-btn="null"
     :cancel-btn="null"
+    destroy-on-close
     @close-btn-click="handleClose"
     @overlay-click="handleClose"
   >
