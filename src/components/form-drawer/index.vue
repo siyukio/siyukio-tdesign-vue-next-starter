@@ -56,14 +56,28 @@ const drawerVisible = computed({
 
 const formRef = ref<FormInstanceFunctions>();
 
+const handleValidateSuccess = async (): Promise<boolean> => {
+  try {
+    await new Promise((resolve, reject) => {
+      emit('validate-success', { resolve, reject });
+    });
+  } catch (error) {
+    console.error('handleValidateSuccess failed:', error);
+    return false;
+  }
+  return true;
+};
+
 const handleConfirm = async (params: any) => {
-  const { resolve, reject } = params;
+  const { resolve } = params;
   const valid = await formRef.value?.validate();
   if (valid === true) {
-    emit('validate-success', { resolve, reject });
-  } else {
-    resolve();
+    const result = await handleValidateSuccess();
+    if (result) {
+      formRef.value.reset();
+    }
   }
+  resolve();
 };
 
 const handleCancel = () => {
