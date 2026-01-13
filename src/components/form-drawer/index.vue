@@ -11,7 +11,7 @@
     @confirm="handleConfirm"
     @cancel="handleCancel"
   >
-    <t-form ref="formRef" :data="formData" :rules="formRules" :label-width="labelWidth">
+    <t-form ref="formRef" reset-type="initial" :data="formData" :rules="formRules" :label-width="labelWidth">
       <slot />
     </t-form>
   </common-drawer>
