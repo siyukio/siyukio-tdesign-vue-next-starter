@@ -95,6 +95,7 @@ const handleClickFullscreen = () => {
         modelValue: props.modelValue,
         extensions: extensions.value,
         style: { height: '790px', width: '100%' },
+        onChange,
       });
     },
     showOverlay: true,
