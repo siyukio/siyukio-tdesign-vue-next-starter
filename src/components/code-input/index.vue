@@ -20,6 +20,7 @@
   </t-space>
 </template>
 <script setup lang="ts">
+import { java } from '@codemirror/lang-java';
 import { json, jsonParseLinter } from '@codemirror/lang-json';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { linter } from '@codemirror/lint';
@@ -49,9 +50,9 @@ const props = defineProps({
     default: '100%',
   },
   format: {
-    type: String as () => 'json' | 'markdown',
+    type: String as () => 'json' | 'markdown' | 'groovy',
     default: 'json',
-    validator: (v: string) => ['json', 'markdown'].includes(v),
+    validator: (v: string) => ['json', 'markdown', 'groovy'].includes(v),
   },
 });
 
@@ -60,6 +61,8 @@ const emit = defineEmits(['update:modelValue']);
 const extensions = ref([]);
 if (props.format === 'json') {
   extensions.value = [oneDark, search(), json(), linter(jsonParseLinter(), { autoPanel: true })];
+} else if (props.format === 'groovy') {
+  extensions.value = [oneDark, java()];
 } else {
   extensions.value = [oneDark, markdown({ base: markdownLanguage })];
 }
