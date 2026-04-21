@@ -18,6 +18,7 @@
 import { ref } from 'vue';
 
 import CodeInput from '@/components/code-input/index.vue';
+import { appName } from '@/config/global';
 import { t } from '@/locales';
 
 defineOptions({
@@ -27,7 +28,7 @@ defineOptions({
 const inital_data = {
   json: `
 {
-  "name": "Siyukio Starter",
+  "name": "${appName}",
   "description": "A frontend starter template based on secondary development of Tencent TDesign's open-source project. Includes preserved TDesign source code but is not officially affiliated with Tencent.",
   "originalRepository": "tdesign-vue-next-starter",
   "features": [

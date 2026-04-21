@@ -16,7 +16,7 @@
       </template>
       <menu-content :nav-data="menu" />
       <template #operations>
-        <span :class="versionCls"> {{ !collapsed ? 'Siyukio' : '' }} {{ pgk.version }} </span>
+        <span :class="versionCls"> {{ !collapsed ? appName : '' }} {{ pgk.version }} </span>
       </template>
     </t-menu>
     <div :class="`${prefix}-side-nav-placeholder${collapsed ? '-hidden' : ''}`"></div>
@@ -31,7 +31,7 @@ import { useRouter } from 'vue-router';
 
 import AssetLogoFull from '@/assets/siyukio-logo-full.svg?component';
 import AssetLogo from '@/assets/siyukio-t-logo.svg?component';
-import { prefix } from '@/config/global';
+import { appName, prefix } from '@/config/global';
 import { getActive } from '@/router';
 import { useSettingStore } from '@/store';
 import type { MenuRoute, ModeType } from '@/types/interface';

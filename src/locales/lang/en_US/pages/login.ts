@@ -1,3 +1,5 @@
+import { appName } from '@/config/global';
+
 export default {
   loginTitle: 'Login in',
   noAccount: 'No Account?',
@@ -27,13 +29,13 @@ export default {
   },
   invalid: {
     email: 'please enter a valid email',
-    agreement: 'Please agree to Siyukio Terms of Service and Privacy Policy',
+    agreement: `Please agree to ${appName} Terms of Service and Privacy Policy`,
   },
   sendVerification: 'send',
   resendAfter: ' seconds',
   signUpWithEmail: 'Sign up with Email',
   signUpWithPhone: 'Sign up with Phone',
-  agreeToTerms: 'I agree to the Siyukio',
+  agreeToTerms: 'I agree to the',
   termsOfService: 'Terms of Service',
   privacyPolicy: 'Privacy Policy',
   loginSuccess: 'Login Successful',
