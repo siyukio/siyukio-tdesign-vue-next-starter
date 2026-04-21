@@ -28,7 +28,7 @@
 <script setup lang="ts">
 import { TranslateIcon } from 'tdesign-icons-vue-next';
 
-import LogoFullIcon from '@/assets/siyukio-logo-full.svg?component';
+import LogoFullIcon from '@/assets/assets-logo-full.svg?component';
 import { langList } from '@/locales';
 import { useLocale } from '@/locales/useLocale';
 import { useSettingStore } from '@/store';

@@ -29,8 +29,8 @@ import type { PropType } from 'vue';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 
-import AssetLogoFull from '@/assets/siyukio-logo-full.svg?component';
-import AssetLogo from '@/assets/siyukio-t-logo.svg?component';
+import AssetLogoFull from '@/assets/assets-logo-full.svg?component';
+import AssetLogo from '@/assets/assets-t-logo.svg?component';
 import { appName, prefix } from '@/config/global';
 import { getActive } from '@/router';
 import { useSettingStore } from '@/store';
