@@ -28,7 +28,7 @@
         <tdesign-setting />
       </div>
 
-      <footer class="copyright">Copyright @ 2021-2025 Siyukio. All Rights Reserved</footer>
+      <footer class="copyright">{{ copyright }}</footer>
     </t-watermark>
   </t-layout>
 </template>
@@ -47,6 +47,9 @@ import Register from './components/Register.vue';
 defineOptions({
   name: 'LoginIndex',
 });
+
+const currentYear = new Date().getFullYear();
+const copyright = `Copyright © 2021-${currentYear} ${appName}. All Rights Reserved`;
 
 const settingStore = useSettingStore();
 const fontColor = settingStore.brandTheme;
