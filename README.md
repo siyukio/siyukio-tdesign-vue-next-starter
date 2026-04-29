@@ -26,14 +26,14 @@ Original repository:
 pnpm install
 
 # Start development server
-npm run dev
+pnpm run dev
 ```
 
 ### Test
 
 ```bash
 # Start test
-npm run test
+pnpm run test
 ```
 
 ### Debugging in VSCode
@@ -44,10 +44,10 @@ You can debug the project using VSCode with a custom [launch.json](./.vscode/lau
 
 ```bash
 # Build for production
-npm run build
+pnpm run build
 
 # Build for test environment
-npm run build:test
+pnpm run build:test
 ```
 
 ### License
