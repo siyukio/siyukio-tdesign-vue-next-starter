@@ -87,7 +87,7 @@ export const getAccessToken = async () => {
 
 export const setAccessToken = (accessToken: string) => {
   authCache.accessToken = accessToken;
-  authCache.refreshAt = new Date().getTime();
+  authCache.refreshAt = Date.now();
 };
 
 export const setDefaultAuthProvider = (authProvider: () => Promise<string>) => {
@@ -96,7 +96,7 @@ export const setDefaultAuthProvider = (authProvider: () => Promise<string>) => {
 
 export const createAndSetDefaultAuthProvider = (refreshApi: string, refreshToken: string) => {
   defaultAuthProvider = async () => {
-    if (new Date().getTime() - authCache.refreshAt <= authCache.maxTime && authCache.accessToken) {
+    if (Date.now() - authCache.refreshAt <= authCache.maxTime && authCache.accessToken) {
       return authCache.accessToken;
     }
     const tokenResponse = await postRequest<any>(refreshApi, {
@@ -107,7 +107,7 @@ export const createAndSetDefaultAuthProvider = (refreshApi: string, refreshToken
       throw new Error(`${tokenResponse.error.message}`);
     }
     authCache.accessToken = tokenResponse.accessToken;
-    authCache.refreshAt = new Date().getTime();
+    authCache.refreshAt = Date.now();
     return tokenResponse.accessToken;
   };
 };

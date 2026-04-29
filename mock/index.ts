@@ -11,7 +11,7 @@ export default [
         ...Mock.mock({
           'list|1-100': [
             {
-              index: /S20201228115950\d\d\d/,
+              index: 'S20201228115951',
               pdName: 'Macbook',
               pdNum: 'p_tmp_60a637cd0d',
               'purchaseNum|1-100': 100,
@@ -20,7 +20,7 @@ export default [
               pdType: '电子产品',
             },
             {
-              index: /S20201228115950\d\d\d/,
+              index: 'S20201228115950',
               pdName: 'Macbook',
               pdNum: 'p_tmp_60a637cd0d',
               'purchaseNum|1-100': 100,

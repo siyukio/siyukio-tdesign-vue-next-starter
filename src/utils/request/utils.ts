@@ -9,7 +9,7 @@ export function joinTimestamp(join: boolean, restful = false): string | object {
   if (!join) {
     return restful ? '' : {};
   }
-  const now = new Date().getTime();
+  const now = Date.now();
   if (restful) {
     return `?_t=${now}`;
   }
@@ -42,12 +42,15 @@ export function formatRequestDate(params: Recordable) {
   }
 }
 
+const parameterPattern = /&$/;
+const urlPattern = /\?$/;
+
 // 将对象转为Url参数
 export function setObjToUrlParams(baseUrl: string, obj: { [index: string]: any }): string {
   let parameters = '';
   for (const key in obj) {
     parameters += `${key}=${encodeURIComponent(obj[key])}&`;
   }
-  parameters = parameters.replace(/&$/, '');
-  return /\?$/.test(baseUrl) ? baseUrl + parameters : baseUrl.replace(/\/?$/, '?') + parameters;
+  parameters = parameters.replace(parameterPattern, '');
+  return urlPattern.test(baseUrl) ? baseUrl + parameters : baseUrl.replace(urlPattern, '?') + parameters;
 }

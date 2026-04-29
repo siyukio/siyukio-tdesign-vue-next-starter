@@ -35,10 +35,10 @@ export const useUserStore = defineStore('user-me', {
       await this.initAuthProvider();
     },
     async getUserInfo() {
-      if (this.updateAt === 0 || new Date().getTime() - this.updateAt > 30000) {
+      if (this.updateAt === 0 || Date.now() - this.updateAt > 30000) {
         this.userInfo.roles = [];
         const res = await user.me();
-        this.updateAt = new Date().getTime();
+        this.updateAt = Date.now();
         this.userInfo = {
           name: res.nickname,
           roles: res.roles,
