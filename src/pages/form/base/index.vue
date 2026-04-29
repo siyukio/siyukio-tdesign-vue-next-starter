@@ -178,8 +178,9 @@ const onSubmit = (ctx: SubmitContext) => {
     MessagePlugin.success('新建成功');
   }
 };
+const pdfPattern = /\.pdf$/;
 const beforeUpload = (file: UploadFile) => {
-  if (!/\.pdf$/.test(file.name)) {
+  if (!pdfPattern.test(file.name)) {
     MessagePlugin.warning('请上传pdf文件');
     return false;
   }

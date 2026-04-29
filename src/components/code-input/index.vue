@@ -26,11 +26,13 @@ import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { linter } from '@codemirror/lint';
 import { search } from '@codemirror/search';
 import { oneDark } from '@codemirror/theme-one-dark';
-import { DialogPlugin, MessagePlugin } from 'tdesign-vue-next';
+import { DialogPlugin, MessagePlugin, Watermark } from 'tdesign-vue-next';
 import { h, ref } from 'vue';
 import { Codemirror } from 'vue-codemirror';
 
+import { watermark } from '@/config/global';
 import { t } from '@/locales';
+import { useSettingStore } from '@/store';
 
 const props = defineProps({
   header: {
@@ -55,8 +57,10 @@ const props = defineProps({
     validator: (v: string) => ['json', 'markdown', 'groovy'].includes(v),
   },
 });
-
 const emit = defineEmits(['update:modelValue']);
+
+const settingStore = useSettingStore();
+const fontColor = settingStore.brandTheme;
 
 const extensions = ref([]);
 if (props.format === 'json') {
@@ -94,12 +98,25 @@ const handleClickFullscreen = () => {
   const confirmDia = DialogPlugin({
     header: props.header,
     body: () => {
-      return h(Codemirror, {
-        modelValue: props.modelValue,
-        extensions: extensions.value,
-        style: { height: '790px', width: '100%' },
-        onChange,
-      });
+      return h(
+        Watermark,
+        {
+          watermarkContent: { text: watermark, fontColor },
+          lineSpace: 24,
+          x: 100,
+          y: 120,
+          width: 158,
+          height: 22,
+          alpha: 0.15,
+        },
+        () =>
+          h(Codemirror, {
+            modelValue: props.modelValue,
+            extensions: extensions.value,
+            style: { height: '790px', width: '100%' },
+            onChange,
+          }),
+      );
     },
     showOverlay: true,
     footer: false,

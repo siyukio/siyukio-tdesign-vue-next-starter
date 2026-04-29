@@ -36,17 +36,17 @@ const inital_data = {
   ],
   "development": {
     "install": "pnpm install",
-    "dev": "npm run dev"
+    "dev": "pnpm run dev"
   },
   "test": {
-    "run": "npm run test"
+    "run": "pnpm run test"
   },
   "debugging": {
     "vscode": "Supports debugging through customized .vscode/launch.json"
   },
   "build": {
-    "production": "npm run build",
-    "testEnvironment": "npm run build:test"
+    "production": "pnpm run build",
+    "testEnvironment": "pnpm run build:test"
   },
   "license": "MIT"
 }
@@ -58,12 +58,12 @@ const inital_data = {
 pnpm install
 
 # Start development server
-npm run dev
+pnpm run dev
 
 ### Test
 
 # Start test
-npm run test
+pnpm run test
 
 ### Debugging in VSCode
 
@@ -72,10 +72,10 @@ You can debug the project using VSCode with a custom [launch.json](./.vscode/lau
 ### Build
 
 # Build for production
-npm run build
+pnpm run build
 
 # Build for test environment
-npm run build:test
+pnpm run build:test
   `,
 };
 
