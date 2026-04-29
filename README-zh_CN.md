@@ -24,14 +24,14 @@ Siyukio Starter 是基于 Tencent TDesign 开源项目进行二次开发的前�
 pnpm install
 
 ## 启动项目
-npm run dev
+pnpm run dev
 ```
 
 ### 测试
 
 ``` bash
 ## 启动测试
-npm run test
+pnpm run test
 ```
 
 ### VSCode 调试
@@ -42,10 +42,10 @@ npm run test
 
 ```bash
 ## 构建正式环境
-npm run build
+pnpm run build
 
 ## 构建测试环境
-npm run build:test
+pnpm run build:test
 ```
 
 ### 开源协议
