@@ -5,7 +5,7 @@ import * as user from '@/api/user';
 import router from '@/router';
 import { usePermissionStore } from '@/store';
 import type { UserInfo } from '@/types/interface';
-import { createAndSetDefaultAuthProvider, setAccessToken } from '@/utils/mcp';
+import { createAndSetDefaultAuthProvider, setAccessToken } from '@/utils/acp';
 
 const InitUserInfo: UserInfo = {
   name: '', // 用户名，用于展示在页面右上角头像处

@@ -17,7 +17,6 @@ Original repository:
 
 ### Features
 
-- Support for **MCP WebSocket transport**
 - Support watermark
 
 ### Development

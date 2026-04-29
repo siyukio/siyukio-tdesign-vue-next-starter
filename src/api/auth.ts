@@ -1,4 +1,4 @@
-import { postRequest } from '@/utils/mcp';
+import { postRequest } from '@/utils/acp';
 
 export const AuthApi = {
   Register: '/auth/register',
