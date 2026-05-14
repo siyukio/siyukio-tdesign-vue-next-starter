@@ -308,6 +308,10 @@ export class SimpleAcpClient {
     return await this.connection.newSession(params);
   }
 
+  async loadSession(params: acp.LoadSessionRequest): Promise<acp.LoadSessionResponse> {
+    return await this.connection.loadSession(params);
+  }
+
   async prompt(params: acp.PromptRequest): Promise<acp.PromptResponse> {
     return await this.connection.prompt(params);
   }
