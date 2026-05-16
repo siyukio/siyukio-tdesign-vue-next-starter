@@ -57,7 +57,11 @@ export const useUserStore = defineStore('user-me', {
         const permissionStore = usePermissionStore();
         await permissionStore.initRoutes();
       } else {
-        router.push('/login');
+        const path = router.currentRoute.value.path;
+        if (path !== '/login' && path !== '/') {
+          console.log('No token, redirect to login', path);
+          router.push('/login');
+        }
       }
     },
     async logout() {
