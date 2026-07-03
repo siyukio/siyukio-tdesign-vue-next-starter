@@ -101,7 +101,13 @@ export default antfu(
 
       rules: {
         'vue/component-name-in-template-casing': ['error', 'kebab-case'],
-        'vue/custom-event-name-casing': ['error', 'kebab-case'],
+        'vue/custom-event-name-casing': [
+          'error',
+          'kebab-case',
+          {
+            ignores: ['/^update:/u'],
+          },
+        ],
         'vue/block-order': [
           'error',
           {

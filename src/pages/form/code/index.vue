@@ -11,6 +11,11 @@
           <code-input v-model="formData.markdown" format="markdown" />
         </t-form-item>
       </div>
+      <div class="form-basic-item">
+        <t-form-item :label="t('pages.formCode.groovy')" name="groovy">
+          <code-input v-model="formData.groovy" format="groovy" />
+        </t-form-item>
+      </div>
     </div>
   </t-form>
 </template>
@@ -26,6 +31,22 @@ defineOptions({
 });
 
 const inital_data = {
+  groovy: `
+import groovy.lang.GroovyShell;
+
+public class Main {
+    public static void main(String[] args) {
+        GroovyShell shell = new GroovyShell();
+
+        Object result = shell.evaluate("""
+            def a = 10
+            def b = 20
+            return a + b
+        """);
+
+        System.out.println(result);   // 30
+    }
+}`,
   json: `
 {
   "name": "${appName}",

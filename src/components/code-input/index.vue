@@ -14,25 +14,20 @@
     <codemirror
       :model-value="modelValue"
       :style="{ height: props.height, width: props.width }"
-      :extensions="extensions"
+      :language="props.format"
       @change="onChange"
     />
   </t-space>
 </template>
 <script setup lang="ts">
-import { java } from '@codemirror/lang-java';
-import { json, jsonParseLinter } from '@codemirror/lang-json';
-import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
-import { linter } from '@codemirror/lint';
-import { search } from '@codemirror/search';
-import { oneDark } from '@codemirror/theme-one-dark';
 import { DialogPlugin, MessagePlugin, Watermark } from 'tdesign-vue-next';
-import { h, ref } from 'vue';
-import { Codemirror } from 'vue-codemirror';
+import { h } from 'vue';
 
 import { watermark } from '@/config/global';
 import { t } from '@/locales';
 import { useSettingStore } from '@/store';
+
+import Codemirror from './Codemirror.vue';
 
 const props = defineProps({
   header: {
@@ -61,15 +56,6 @@ const emit = defineEmits(['update:modelValue']);
 
 const settingStore = useSettingStore();
 const fontColor = settingStore.brandTheme;
-
-const extensions = ref([]);
-if (props.format === 'json') {
-  extensions.value = [oneDark, search(), json(), linter(jsonParseLinter(), { autoPanel: true })];
-} else if (props.format === 'groovy') {
-  extensions.value = [oneDark, java()];
-} else {
-  extensions.value = [oneDark, markdown({ base: markdownLanguage })];
-}
 
 const onChange = (newValue: any) => {
   emit('update:modelValue', newValue);
@@ -112,7 +98,7 @@ const handleClickFullscreen = () => {
         () =>
           h(Codemirror, {
             modelValue: props.modelValue,
-            extensions: extensions.value,
+            language: props.format,
             style: { height: '790px', width: '100%' },
             onChange,
           }),
